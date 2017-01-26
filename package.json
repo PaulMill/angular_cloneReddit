@@ -1,0 +1,17 @@
+{
+  "name": "myProject",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {},
+  "author": "PaulMill <usa.paul@icloud.com>",
+  "license": "MIT",
+  "script": {
+    "start": "lite-server"
+  },
+  "devDependencies": {
+    "lite-server": "^2.2.2"
+  },
+  "dependencies": {
+    "angular": "1.6.0"
+  }
+}
