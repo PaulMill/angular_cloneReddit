@@ -5,10 +5,12 @@
   "repository": {},
   "author": "PaulMill <usa.paul@icloud.com>",
   "license": "MIT",
-  "script": {
+  "scripts": {
     "start": "lite-server"
   },
   "devDependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.1",
     "lite-server": "^2.2.2"
   },
   "dependencies": {
