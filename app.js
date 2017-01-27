@@ -46,11 +46,11 @@
             created: new Date,
             votes: 0,
             comments: [{
-                com: 'Hi my all friends'
+                comment: 'Hi my all friends'
               }, {
-                com: 'THe second comments'
+                comment: 'THe second comments'
               }, {
-                com: 'Third comment'
+                comment: 'Third comment'
               }]
           }
           ];
@@ -66,11 +66,9 @@
             vm.post = null;
           }
         }
-        vm.toggleComments = function() {
-
-        }
-        vm.createComments = function(){
-
+        vm.createComments = function(post){
+          post.comments.push(vm.post);
+          vm.post = null;
         }
       },
       template: `
@@ -191,11 +189,11 @@
                       <div class="col-md-offset-1">
                         <hr>
                         <p ng-repeat="comment in post.comments">
-                          {{ comment.com }}
+                          {{ comment.comment }}
                         </p>
-                        <form class="form-inline">
+                        <form class="form-inline" ng-submit="$ctrl.createComments(post)">
                           <div class="form-group">
-                            <input class="form-control">
+                            <input class="form-control" name"com" ng-model="$ctrl.post.comment">
                           </div>
                           <div class="form-group">
                             <input type="submit" class="btn btn-primary">
