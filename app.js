@@ -3,6 +3,7 @@
   angular.module('app', [])
     .component('reddit', {
       controller: function() {
+        let sortBy = 'Date';
         const vm = this
         vm.$onInit = function() {
           vm.posts = [
@@ -11,7 +12,7 @@
             body: "Nothing better than a good Photoshop battle, especially when it's a picture of a reality-TV gameshow host who is now our president. There's a great one happening over on Reddit featuring Trump trying to put his pen back in its cap. For some reason, his intense concentration toward putting that pen back in its cap makes for the perfect photoshop subject. Enjoy! ",
             author: "FAIL Blog",
             imageUrl: "http://i.imgur.com/k3MU7aW.png",
-            created: new Date,
+            created: Date.parse('Fri Jan 27 2017 00:36:36 GMT-0800 (PST)'),
             votes: 0,
             comments: []
           }, {
@@ -19,7 +20,7 @@
             body: "Books offer an outstanding wealth of learning and at a much cheaper price than taking a course. Reading gives you a chance to consume huge amount of research in a relatively short amount of time. Anne E. Cunningham and Keith E. Stanovich’s “What Reading Does for the Mind” also noted that heavy readers tend to display greater knowledge of how things work and who or what people were. Books at home have been strongly linked to academic achievement. If you are looking for a list of great books to read, check out 10 Easy To Read Books That Make You Smarter.",
             author: "whytoread.com",
             imageUrl: "https://static.pexels.com/photos/159737/books-learn-bible-notes-159737.jpeg",
-            created: new Date,
+            created: Date.parse('Fri Jan 27 2017 00:30:36 GMT-0800 (PST)'),
             votes: 0,
             comments: []
           }, {
@@ -27,7 +28,7 @@
             body: "Samsung has announced an expanded voluntary recall on all original and replacement Galaxy Note7 devices sold or exchanged in the United States in cooperation with the U.S. Consumer Product Safety Commission and in partnership with carriers and retailers. Since the affected devices can overheat and pose a safety risk, we are asking consumers with a Galaxy Note7 to power it down and contact the carrier or retail outlet where they purchased their device. Consumers who have a Galaxy Note7 device can exchange their phone for another Samsung smartphone, or receive a refund, under the terms of the expanded U.S. Note7 Refund and Exchange Program. If you bought your Galaxy Note7 from Samsung.com you should click here to process your refund or exchange. If you have questions, you should contact us at 1-844-365-6197 and we can help you.",
             author: "Galaxy Note7 Safety Recall",
             imageUrl: "https://static.pexels.com/photos/241345/pexels-photo-241345.jpeg",
-            created: new Date,
+            created: Date.parse('Fri Jan 27 2017 00:29:36 GMT-0800 (PST)'),
             votes: 0,
             comments: []
           }, {
@@ -35,7 +36,7 @@
             body: "Canon AE-1, the world’s first camera with an embedded microcomputer, accelerated the incorporation of automatic and electronic technologies with the 35mm SLR camera. The flagship camera “F-1″ was reborn as the microcomputer-controlled “New F-1.” The Autoboy series, the world’s first lens-shutter 35mm autofocus (AF) cameras were also marketed, symbolizing the shift of lens-shutter camera into that with AF function. The sign of the new era in the camera world was visible already by the developmental activities in movie video cameras and still video (SV) cameras.",
             author: "Paul Miller",
             imageUrl: "https://static.pexels.com/photos/6103/woman-hand-legs-camera.jpg",
-            created: new Date,
+            created: Date.parse('Fri Jan 27 2017 00:32:36 GMT-0800 (PST)'),
             votes: 0,
             comments: []
           }, {
@@ -43,7 +44,7 @@
             body: " But there are still compelling reasons to consider an iPhone 7, even if you own one of those recent iPhone model provided you have an affordable way to upgrade. The iPhone 7 is now fully water-resistant (it can take a shallow dunking). The camera takes notably better photos, especially in low light, and adds the optical image stabilization feature previously restricted to the 5.5-inch Plus model. The battery lasts a little bit longer",
             author: "Paul Miller",
             imageUrl: "https://static.pexels.com/photos/270541/pexels-photo-270541.jpeg",
-            created: new Date,
+            created: Date.parse('Fri Jan 27 2017 00:26:36 GMT-0800 (PST)'),
             votes: 0,
             comments: [{
                 comment: 'Hi my all friends'
@@ -70,6 +71,25 @@
           post.comments.push(vm.post);
           vm.post = null;
         }
+// function for showing when post was created
+        vm.timeCreated = function(post) {
+          let seconds = 0;
+          let dateNow = new Date;
+          seconds = (Date.parse(dateNow) - post.created)/1000
+          if ((seconds/60) < 1) {
+            return 'less than minute';
+          }
+          else if ((seconds/3600) < 1) {
+            return parseInt(seconds/60) + ' minutes ';
+          }
+          else if ((seconds/86400) < 1) {
+            return parseInt(seconds/3600) + ' hours '
+          }
+          else if ((seconds/86400) > 1) {
+            let days = parseInt((seconds/86400));
+            return days + ' days ';
+          }
+        }
       },
       template: `
 
@@ -82,11 +102,17 @@
                 <input type="search" class="form-control input-sm search-form" placeholder="Filter">
               </li>
               <div class="form-inline">
-                <label for="sort">  Sort by </label>
-                <select class="form-control" id="sort">
-                  <option>Some text</option>
-                  <option>Some text</option>
-                </select>
+                <ul class="nav navbar-nav">
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Sort by {{ title }} <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Title</a></li>
+                      <li><a href="#">Date</a></li>
+                      <li><a href="#">Votes</a></li>
+                      <li><a href="#">Comments</a></li>
+                    </ul>
+                  </li>
+                </ul>
               </div>
             </ul>
 
@@ -174,7 +200,7 @@
                       <blockquote>{{ post.body }}</blockquote>
                     </p>
                     <div>
-                      Created less than minute ago
+                      Created {{ $ctrl.timeCreated(post) }} ago
                       |
                       <i class="glyphicon glyphicon-comment"></i>
                       <a ng-click="showComments = !showComments">
